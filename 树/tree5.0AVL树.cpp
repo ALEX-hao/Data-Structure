@@ -1,9 +1,7 @@
 // DaraStrue AVLTree.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
-//
 // DataStructure Tree.cpp
-// 二叉树链式存储的第6次实现
+// 二叉树链式存储的第5次实现
 // 已实现 队列-层序建立树、打印树 ; 栈-递归-中序赋值、打印 ; 递归查找、删除 ; 计算树中节点的高度、清零高度；AVL实现平衡二叉树
-// 新增：计算树中节点的高度、清零高度
 // 新增：AVL化
 
 #include "pch.h"
@@ -65,9 +63,9 @@ public:
 	{p->dalte = s->dalte;p->data = s->data;p->height = s->height;}
 	int swap(bond<T> *p, bond<T> *s);
 
-	int find_destoryed();								//查找不平衡的节点，并将节点地址输入栈中
-	int find_destoryed_ps(bond<T> *pr=root);
-	int AVL();
+	int find_unbalanced();								//查找对外接口
+	int find_unbalanced_push(bond<T> *pr=root);			//计算高度差并将不平衡节点入栈
+	int AVL();											//调整树的结构
 };
 template <typename T>
 void tree<T>::bulid_tree(T *u, int a)					//建树并初始化各个节点的值
@@ -299,16 +297,16 @@ void tree<T>::set_tree_height_0(bond<T> *p)
 	}
 }
 template <typename T>
-int tree<T>::find_destoryed()
+int tree<T>::find_unbalanced()
 {
 	top_tree_stack = -1;
 	set_tree_height_0(root);
 	count_tree_high(root);
-	find_destoryed_ps(root);
+	find_unbalanced_push(root);
 	return 0;
 }
 template <typename T>
-int tree<T>::find_destoryed_ps(bond<T> *pr)
+int tree<T>::find_unbalanced_push(bond<T> *pr)
 {
 	if (pr)
 	{
@@ -320,23 +318,22 @@ int tree<T>::find_destoryed_ps(bond<T> *pr)
 		else if (pr->right == NULL && pr->left != NULL)
 			pr->dalte = pr->left->height;
 		if (abs(pr->dalte) >= 2)push_stack(pr);
-		find_destoryed_ps(pr->left);
-		find_destoryed_ps(pr->right);
+		find_unbalanced_push(pr->left);
+		find_unbalanced_push(pr->right);
 	}
 	return 0;
 }
 template <typename T>
 int tree<T>::AVL()
 {
-	find_destoryed();
+	find_unbalanced();
 	bond<T> *dt = pop_stack();
 	bond<T> *pt = NULL, *ft = NULL;
 	for(;dt; dt = pop_stack())
 	{
-		cout << "蔡旭昆" << dt->data << endl;
 		if (dt->dalte >= 2)
 		{
-			pt = dt->left;
+			pt = dt->left;								//左单旋
 			if (pt->right == NULL)
 			{
 				ft = pt->left;
@@ -344,7 +341,7 @@ int tree<T>::AVL()
 				dt->right = pt;
 				dt->left = ft;
 				pt->left = NULL;
-			}
+			}											//左右双旋
 			else
 			{
 				ft = pt->right;
@@ -355,7 +352,7 @@ int tree<T>::AVL()
 		}
 		else if(dt->dalte<=-2)
 		{
-			pt = dt->right;
+			pt = dt->right;								//右单旋
 			if (pt->left == NULL)
 			{
 				ft = pt->right;
@@ -363,7 +360,7 @@ int tree<T>::AVL()
 				dt->left = pt;
 				dt->right = ft;
 				pt->right = NULL;
-			}
+			}											//右左双旋
 			else
 			{
 				ft = pt->left;
@@ -372,7 +369,7 @@ int tree<T>::AVL()
 				pt->right = NULL;
 			}
 		}
-		find_destoryed();
+		find_unbalanced();								//重新统计树的高度、高度差
 	}
 	set_tree_height_0(root);
 	count_tree_high(root);
@@ -413,7 +410,7 @@ int main()
 	v.insert_tree_bond(-3, v.root);
 	cout << "==============================" << endl;
 	cout << "原来的" << endl;
-	v.find_destoryed();
+	v.find_unbalanced();
 	v.print_tree();
 	/*                      7
 		           3                11
@@ -449,7 +446,7 @@ int main()
 		 -3
 		-4
 	*/
-	R.find_destoryed();
+	R.find_unbalanced();
 	R.AVL();
 	R.print_tree();
 	cout << endl;
