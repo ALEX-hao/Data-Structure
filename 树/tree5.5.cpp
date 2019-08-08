@@ -1,4 +1,4 @@
-// DaraStrue AVLTree.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+// DaraStructrue AVLTree.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 // DataStructure Tree.cpp
 // 二叉树链式存储的第5.5次实现
 // 已实现 队列-层序建立树、打印树 ; 栈-递归-中序赋值、打印 ; 递归查找、删除 ; 计算树中节点的高度、清零高度；AVL实现平衡二叉树
