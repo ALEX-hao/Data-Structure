@@ -1,5 +1,6 @@
 // DataStructure Shortest Route.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 // ShortestRoute1.0 ~_~ 这里实现图相关算法中的加权最短路径；使用了之前图遍历的程序本体。
+// 修正了一些bug
 
 #include "pch.h"
 #include <iostream>
@@ -176,7 +177,7 @@ public:
 	{
 		vertex v = 0, w = 0;
 		dist[start] = 0;
-		for (; v <= num_node; v++)
+		for (v = 0; v <= num_node; v++)
 		{
 			if (graph[start][v] > 0)
 			{
@@ -190,7 +191,7 @@ public:
 			v = minv();
 			if (v == -404) break;
 			collect[v] = true;
-			for (; w <= num_node; w++)
+			for (w = 0; w <= num_node; w++)
 			{
 				if (graph[v][w] > 0 && collect[w] == false)
 					if (dist[v] + graph[v][w] < dist[w])
@@ -214,8 +215,8 @@ int main()
 	cout << endl;
 	x.bsf();
 	cout << endl;
-	x.dijkstra(3);
-	for (int i = 0; i <= x.num_node; i++)
+	x.dijkstra(1);
+	for (int i = 1; i <= x.num_node; i++)
 	{
 		cout << i << "节点" << x.path[i] << "距离" << x.dist[i] << endl;
 	}
