@@ -172,7 +172,7 @@ public:
 			return v;
 		else return -404;
 	}
-	int shortest(vertex start)
+	int dijkstra(vertex start)
 	{
 		vertex v = 0, w = 0;
 		dist[start] = 0;
