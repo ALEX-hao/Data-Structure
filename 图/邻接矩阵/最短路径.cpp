@@ -214,7 +214,7 @@ int main()
 	cout << endl;
 	x.bsf();
 	cout << endl;
-	x.shortest(3);
+	x.dijkstra(3);
 	for (int i = 0; i <= x.num_node; i++)
 	{
 		cout << i << "节点" << x.path[i] << "距离" << x.dist[i] << endl;
