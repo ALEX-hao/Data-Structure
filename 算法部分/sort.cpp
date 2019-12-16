@@ -114,48 +114,6 @@ int mergesort(int a[], int n)						//对外调用的接口
 	return 0;
 }
 
-int merge_for(int a[], int at[], int L, int R, int end)//排序核心算法
-{
-	int temp = L;
-	int num = end - L + 1;
-	int Lend = R - 1;
-	while (L <= Lend && R <= end)
-	{
-		if (a[L] <= a[R])
-			at[temp++] = a[L++];
-		else at[temp++] = a[R++];
-	}
-	while (L <= Lend)
-		at[temp++] = a[L++];
-	while (R <= end)
-		at[temp++] = a[R++];
-	return end;
-}
-int merges(int a[], int at[], int n, int length)
-{
-	int i = 0;
-	for (i = 0; i <= n - 2 * length; i += 2 * length)
-		merge_for(a, at, i, i + length, i + 2 * length - 1);
-	if (n - i > length)
-		merge_for(a, at, i, i + length, n - 1);
-	else for (int j = i; j < n; j++) at[j] = a[j];
-	return 0;
-}
-int merge_sort(int a[], int n)
-{
-	int length = 1;
-	int *at = new int[n];
-	while (length < n)
-	{
-		merges(a, at, n, length);
-		length *= 2;
-		merges(at, a, n, length);
-		length *= 2;
-	}
-	delete at;
-	at = NULL;
-	return 0;
-}
 
 int findpivot(int a[], int L, int R)
 {
