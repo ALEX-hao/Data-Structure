@@ -130,22 +130,17 @@ int findpivot(int a[], int L, int R)
 int quicksort(int a[], int L,int R)				//快速排序适用于大量的数据
 {												//但是也不能太大了……递归不下
 	int low = L, high = R - 1;
-	if (R - L > 10)								//自身无法递归结束，需要调用低阶算法。
+	if (L >= R) return 0;								
+	int pivot = findpivot(a, L, R);
+	while (low!=high)
 	{
-		int pivot = findpivot(a, L, R);
-		while (1)
-		{
-			while (a[++low] < pivot);
-			while (a[--high] > pivot);
-			if (low < high)
-				swap(&a[low], &a[high]);
-			else break;
-		}
-		swap(&a[low], &a[R - 1]);
-		quicksort(a, L, low - 1);
-		quicksort(a, low + 1, R);
+		while (a[high] >= pivot && low < high)high--;
+		while (a[low] <= pivot && low < high) low++;
+		if (low < high) swap(&a[low], &a[high]);
 	}
-	else insertsort(a + L, R - L);
+	if (low < high) swap(a[R - 1], a[low]);
+	quicksort(a, L, low - 1);
+	quicksort(a, low + 1, R);
 	return 0;
 }
 int Qsort(int a[], int n)
